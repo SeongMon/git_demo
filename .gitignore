@@ -1,0 +1,17 @@
+**/*output*
+*output*
+**/*embeds*
+*embeds*
+**/grad_value*
+**/old_codes*
+**/wandb*
+**/logs*
+**/shells*
+*images*
+__pycache__/
+*.py[cod]
+**/*old_codes/*
+**/*backups/*
+**/*old_outputs/*
+**/*old_images/*
+logs/
