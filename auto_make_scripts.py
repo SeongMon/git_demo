@@ -63,8 +63,21 @@ def duplicate_experiment_with_specific_changes(version_old, version_new):
             if filename == f'train_{version_old}.sh':
                 content = content.replace(f'export EXP_NUM="{version_old}"', f'export EXP_NUM="{version_new}"')
                 content = content.replace(f'--exp_num {version_old}', f'--exp_num {version_new}')
+            if filename == f'infer_{version_old}.sh':
+                content = content.replace(f'export EXP_NUM="{version_old}"', f'export EXP_NUM="{version_new}"')
+                content = content.replace(f'--exp_num {version_old}', f'--exp_num {version_new}')
             if filename == '@readme.txt':
-                content = f'{version_new}'
+                # content = f'{version_new}\n\n{version_old}의 복사본입니다.\n\n'
+                # 기존 trajectory 가져오기 (첫 줄만 사용)
+                try:
+                    with open(src_path, 'r', encoding='utf-8') as src_file:
+                        first_line = src_file.readline().strip()
+                        trajectory_line = f"{version_new} ← {first_line}" if first_line else version_new
+                except Exception as e:
+                    print(f"⚠️ Error reading readme.txt for trajectory: {e}")
+                    trajectory_line = version_new
+                content = f"{trajectory_line}\n\n"
+                # 덮어쓸 내용 구성 (나머지 내용은 삭제)
             if filename == f'train_multi_{version_old}.sh':
                 content = content.replace(f'export EXP_NUM="{version_old}"', f'export EXP_NUM="{version_new}"')
                 content = content.replace(f'--exp_num {version_old}', f'--exp_num {version_new}')
